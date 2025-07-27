@@ -88,6 +88,7 @@ const TransaksiDataTableAction = ({ idTransaksi, idNasabah, data, tanggal, onDat
     const day = parseInt(dateParts[0]);
     const month = monthMap[dateParts[1]];
     const year = parseInt(dateParts[2]);
+
     const date = new Date(year, month, day);
     const isoDate = date.toISOString();
 
@@ -96,6 +97,7 @@ const TransaksiDataTableAction = ({ idTransaksi, idNasabah, data, tanggal, onDat
         'Authorization': `Bearer ${cookies.currentUser?.token}`
       }
     });
+
     const result = await response.json();
 
     if (response.ok) {
@@ -125,12 +127,6 @@ useEffect(() => {
     fetchTransactionDetails();
   }
 }, [showDetail, fetchTransactionDetails]);
-
-  useEffect(() => {
-    if (showDetail) {
-      fetchTransactionDetails();
-    }
-  }, [showDetail]);
 
   return (
     <>
