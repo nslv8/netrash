@@ -101,7 +101,7 @@ function Nasabah() {
     } else {
       setFiltered(dataNasabah?.data ?? []);
     }
-  }, [search, dataNasabah, errorNasabah, isLoadingNasabah, userId]);
+  }, [search, dataNasabah, errorNasabah, isLoadingNasabah, userId, cookies]);
 
   if (errorNasabah) {
     console.error("Error in nasabah page:", errorNasabah);

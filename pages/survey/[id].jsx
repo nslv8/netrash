@@ -41,7 +41,7 @@ const navbarContent = [
 ];
 
 
-function detailSurvey({idBsu}) {
+function DetailSurvey({idBsu}) {
   const { postForm } = usePostForm();
   const { uploadFile } = useUploadFile();
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
@@ -81,4 +81,4 @@ function detailSurvey({idBsu}) {
   )
 }
 
-export default detailSurvey;
+export default DetailSurvey;
