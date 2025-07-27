@@ -9,7 +9,6 @@ import { ScrollArea } from "../ui/scroll-area";
 import { Button } from "../ui/button";
 import GenTable from "../layout/gen-table";
 import { Eye } from "lucide-react";
-import TransaksiNasabahDetailModal from "./transaksi-nasabah-detail-modal"; // pastikan file ini ada
 
 const TransaksiDetailModal = ({
   isOpen,
