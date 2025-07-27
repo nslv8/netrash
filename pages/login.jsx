@@ -98,9 +98,9 @@ export default function Login() {
           </h1>
           <p className="leading-7 [&:not(:first-child)]:mt-6">
             Bersama kita wujudkan dunia yang lebih bersih dan hijau menuju NET
-            ZERO TRASH. Setiap langkah kecilmu dalam mengelola sampah
+            ZERO TRASH! 🌱💚. Setiap langkah kecilmu dalam mengelola sampah
             adalah langkah besar untuk bumi. Yuk, jadikan perubahan dimulai dari
-            kita"
+            kita!
           </p>
         </div>
       </div>
