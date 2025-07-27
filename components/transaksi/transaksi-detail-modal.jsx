@@ -79,9 +79,9 @@ const NasabahDetailModal = ({ isOpen, onClose, data, nasabahNama, tanggal, onDat
           return;
         }
 
-        const response = await fetch(/api/jenisSampah/listsampah?id=${bsuId}, {
+        const response = await fetch(`/api/jenisSampah/listsampah?id=${bsuId}`, {
           headers: {
-            'Authorization': Bearer ${getTokenUserCookies(cookies)}
+            'Authorization': `Bearer ${getTokenUserCookies(cookies)}`
           }
         });
         const result = await response.json();
@@ -116,11 +116,11 @@ const NasabahDetailModal = ({ isOpen, onClose, data, nasabahNama, tanggal, onDat
         throw new Error('Data transaksi tidak lengkap');
       }
 
-      const response = await fetch(/api/transaksi/detail/delete/${transaksi.transaksiId}, {
+      const response = await fetch(`/api/transaksi/detail/delete/${transaksi.transaksiId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': Bearer ${cookies.currentUser?.token}
+          'Authorization': `Bearer ${cookies.currentUser?.token}`
         },
         body: JSON.stringify({
           transaksiId: transaksi.transaksiId,
@@ -173,12 +173,12 @@ const NasabahDetailModal = ({ isOpen, onClose, data, nasabahNama, tanggal, onDat
       }
 
       const response = await fetch(
-        /api/transaksi/detail/update/${selectedTransaksi.transaksiId}?oldJenisSampahId=${selectedTransaksi.jenisSampahId}, 
+        `/api/transaksi/detail/update/${selectedTransaksi.transaksiId}?oldJenisSampahId=${selectedTransaksi.jenisSampahId}`, 
         {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': Bearer ${cookies.currentUser?.token}
+            'Authorization': `Bearer ${cookies.currentUser?.token}`
           },
           body: JSON.stringify({
             jenisSampahId: parseInt(jenisSampahId),
@@ -466,7 +466,7 @@ const TransaksiDetailModal = ({ isOpen, onClose, data, tanggal, onDataChange, se
               method: 'DELETE',
               headers: {
                 'Content-Type': 'application/json',
-                'Authorization': Bearer ${cookies.currentUser?.token}
+                'Authorization': `Bearer ${cookies.currentUser?.token}`
               },
               body: JSON.stringify({
                 tanggal: isoDate
