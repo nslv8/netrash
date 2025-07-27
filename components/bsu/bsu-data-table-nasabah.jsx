@@ -6,16 +6,13 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table";
-  
-  import { Badge } from "@/components/ui/badge";
-  
-  import {
+import {
     flexRender,
     getCoreRowModel,
     useReactTable,
-  } from "@tanstack/react-table";
-//   import BsuDataTableAction from "./bsu-data-table-action";
-  
+} from "@tanstack/react-table";
+import ApproverDataTableAction from "./bsu-data-table-action-approver";
+
   const columns = [
     {
       accessorKey: "nasabah.nama",

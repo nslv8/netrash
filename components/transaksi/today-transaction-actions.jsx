@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -11,8 +12,34 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Trash2, Eye } from "lucide-react";
+import { getTokenUserCookies } from "@/lib/utils";
+import { useCookies } from "react-cookie";
 
 export default function TodayTransactionActions({ transaction, onDelete, onView }) {
+  const [cookies] = useCookies(["currentUser"]);
+  const [details, setDetails] = useState([]);
+
+  const fetchTransactionDetails = useCallback(async () => {
+    try {
+      const token = getTokenUserCookies(cookies);
+      const res = await fetch(`/api/transaksi/${transaction.idTransaksi}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const result = await res.json();
+      if (result.status === 200) {
+        setDetails(result.data);
+      }
+    } catch (error) {
+      console.error("Error fetching transaction details:", error);
+    }
+  }, [cookies, transaction.idTransaksi]);
+
+  useEffect(() => {
+    fetchTransactionDetails();
+  }, [fetchTransactionDetails]);
+
   return (
     <div className="flex gap-2">
       <Button

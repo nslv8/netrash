@@ -49,7 +49,7 @@ function Transaksi() {
     if (transaksiData?.data) {
       setFiltered(transaksiData.data);
     }
-  }, [transaksiData]);
+  }, [transaksiData, transaksiError, isLoading]);
 
   // Fungsi untuk memperbarui data transaksi
   const updateTransaksiList = (newList) => {

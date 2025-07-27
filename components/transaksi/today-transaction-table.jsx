@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   Table,
   TableBody,
@@ -34,13 +34,13 @@ export default function TodayTransactionTable() {
 
   useEffect(() => {
     fetchTodayTransactions();
-  }, [cookies, removeCookie, router]);
+  }, [cookies, removeCookie, router, fetchTodayTransactions]);
 
-  const fetchTodayTransactions = async () => {
+ const fetchTodayTransactions = useCallback(async () => {
     try {
       const token = getTokenUserCookies(cookies);
       const userId = getIdUserCookies(cookies);
-      
+
       if (!userId) {
         removeCookie(["currentUser"]);
         router.replace("/login");
@@ -53,6 +53,7 @@ export default function TodayTransactionTable() {
           Authorization: `Bearer ${token}`,
         },
       });
+
       const result = await response.json();
       if (result.status === 200) {
         setTransactions(result.data);
@@ -60,12 +61,12 @@ export default function TodayTransactionTable() {
         removeCookie(["currentUser"]);
         router.replace("/login");
       } else {
-        console.error('Error:', result.message);
+        console.error("Error:", result.message);
       }
     } catch (error) {
-      console.error('Error fetching today transactions:', error);
+      console.error("Error fetching today transactions:", error);
     }
-  };
+  }, [cookies, removeCookie, router])
 
   const handleDelete = async (idTransaksi) => {
     try {
