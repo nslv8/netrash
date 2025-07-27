@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -75,51 +75,56 @@ const TransaksiDataTableAction = ({ idTransaksi, idNasabah, data, tanggal, onDat
     }
   };
 
-  const fetchTransactionDetails = async () => {
-    try {
-      setIsLoadingDetail(true);
-      
-      // Convert the Indonesian formatted date back to a proper date object
-      const dateParts = tanggal.split(', ')[1].split(' '); // Split "Senin, 18 Desember 2024" into parts
-      const monthMap = {
-        'Januari': 0, 'Februari': 1, 'Maret': 2, 'April': 3, 'Mei': 4, 'Juni': 5,
-        'Juli': 6, 'Agustus': 7, 'September': 8, 'Oktober': 9, 'November': 10, 'Desember': 11
-      };
-      
-      const day = parseInt(dateParts[0]);
-      const month = monthMap[dateParts[1]];
-      const year = parseInt(dateParts[2]);
-      
-      const date = new Date(year, month, day);
-      const isoDate = date.toISOString();
-      
-      const response = await fetch(`/api/transaksi/detail/get/${encodeURIComponent(isoDate)}`, {
-        headers: {
-          'Authorization': `Bearer ${cookies.currentUser?.token}`
-        }
-      });
-      const result = await response.json();
-      
-      if (response.ok) {
-        setDetailData(result.data);
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Error!",
-          description: result.message || "Gagal mengambil detail transaksi",
-        });
+ const fetchTransactionDetails = useCallback(async () => {
+  try {
+    setIsLoadingDetail(true);
+
+    const dateParts = tanggal.split(', ')[1].split(' ');
+    const monthMap = {
+      'Januari': 0, 'Februari': 1, 'Maret': 2, 'April': 3, 'Mei': 4, 'Juni': 5,
+      'Juli': 6, 'Agustus': 7, 'September': 8, 'Oktober': 9, 'November': 10, 'Desember': 11
+    };
+
+    const day = parseInt(dateParts[0]);
+    const month = monthMap[dateParts[1]];
+    const year = parseInt(dateParts[2]);
+    const date = new Date(year, month, day);
+    const isoDate = date.toISOString();
+
+    const response = await fetch(`/api/transaksi/detail/get/${encodeURIComponent(isoDate)}`, {
+      headers: {
+        'Authorization': `Bearer ${cookies.currentUser?.token}`
       }
-    } catch (error) {
-      console.error('Error fetching transaction details:', error);
+    });
+    const result = await response.json();
+
+    if (response.ok) {
+      setDetailData(result.data);
+    } else {
       toast({
         variant: "destructive",
         title: "Error!",
-        description: "Terjadi kesalahan saat mengambil detail transaksi",
+        description: result.message || "Gagal mengambil detail transaksi",
       });
-    } finally {
-      setIsLoadingDetail(false);
     }
-  };
+  } catch (error) {
+    console.error('Error fetching transaction details:', error);
+    toast({
+      variant: "destructive",
+      title: "Error!",
+      description: "Terjadi kesalahan saat mengambil detail transaksi",
+    });
+  } finally {
+    setIsLoadingDetail(false);
+  }
+}, [cookies, tanggal]); // <-- dependency yang digunakan dalam fungsi
+
+// lalu gunakan di useEffect:
+useEffect(() => {
+  if (showDetail) {
+    fetchTransactionDetails();
+  }
+}, [showDetail, fetchTransactionDetails]);
 
   useEffect(() => {
     if (showDetail) {
