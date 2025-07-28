@@ -66,12 +66,12 @@ function ListSideBar() {
       icon: UploadIcon,
       href: "saldo",
     },
-    {
-      title: "Verifikasi Pendaftaran",
-      key: "approver",
-      icon: BadgeCheck,
-      href: "approver",
-    },
+    // {
+    //   title: "Verifikasi Pendaftaran",
+    //   key: "approver",
+    //   icon: BadgeCheck,
+    //   href: "approver",
+    // },
     {
       title: "Keuangan",
       key: "keuangan",
@@ -84,18 +84,18 @@ function ListSideBar() {
       icon: HandshakeIcon,
       href: "transaksi",
     },
-    {
-      title: "Daftar Nasabah",
-      key: "bsu",
-      icon: Users,
-      href: "nasabah",
-    },
-    {
-      title: "Daftar Pengurus",
-      icon: Users2,
-      key: "bsu",
-      href: "pengurus",
-    },
+    // {
+    //   title: "Daftar Nasabah",
+    //   key: "bsu",
+    //   icon: Users,
+    //   href: "nasabah",
+    // },
+    // {
+    //   title: "Daftar Pengurus",
+    //   icon: Users2,
+    //   key: "bsu",
+    //   href: "pengurus",
+    // },
   ];
   const [listData, setList] = useState([]);
   if (cookies.currentUser) {
@@ -149,6 +149,18 @@ function ListSideBar() {
           icon: BookUp,
           key: "bsu",
           href: "penarikan-saldo",
+        });
+            listSide.push({
+          title: "Daftar Nasabah",
+          icon: Users,
+          key: "bsu",
+          href: "nasabah",
+        });
+        listSide.push({
+          title: "Daftar Pengurus",
+          icon: Users2,
+          key: "bsu",
+          href: "pengurus",
         });
       }
 
