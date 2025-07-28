@@ -152,19 +152,6 @@ function ListSideBar() {
         });
       }
 
-      defaultNavbarContent.forEach((x) => {
-        if (res.includes(x.key)) {
-          listSide.push(x);
-        }
-      });
-      if (cookies.currentUser?.roleName == "bsu") {
-        listSide.push({
-          title: "Daftar Jenis Sampah",
-          icon: Trash,
-          key: "bsu",
-          href: "jenis-sampah",
-        });
-      }
       if (cookies.currentUser?.roleName == "admin") {
         listSide.push({
           title: "Monitoring",
@@ -201,6 +188,20 @@ function ListSideBar() {
           icon: UserCircle,
           key: "bsi",
           href: "admin/bsu",
+        });
+      }
+
+      defaultNavbarContent.forEach((x) => {
+        if (res.includes(x.key)) {
+          listSide.push(x);
+        }
+      });
+      if (cookies.currentUser?.roleName == "bsu") {
+        listSide.push({
+          title: "Daftar Jenis Sampah",
+          icon: Trash,
+          key: "bsu",
+          href: "jenis-sampah",
         });
       }
       if (cookies.currentUser?.roleName == "nasabah") {
