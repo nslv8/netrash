@@ -66,12 +66,12 @@ function ListSideBar() {
       icon: UploadIcon,
       href: "saldo",
     },
-    // {
-    //   title: "Verifikasi Pendaftaran",
-    //   key: "approver",
-    //   icon: BadgeCheck,
-    //   href: "approver",
-    // },
+    {
+      title: "Verifikasi Pendaftaran",
+      key: "approver",
+      icon: BadgeCheck,
+      href: "approver",
+    },
     {
       title: "Keuangan",
       key: "keuangan",
