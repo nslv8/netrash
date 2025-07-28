@@ -152,6 +152,14 @@ function ListSideBar() {
         });
       }
 
+      if (cookies.currentUser?.roleName == "admin") {
+        listSide.push({
+          title: "Monitoring",
+          icon: Monitor,
+          key: "bsi",
+          href: "admin/monitoring",
+        });
+      }
       defaultNavbarContent.forEach((x) => {
         if (res.includes(x.key)) {
           listSide.push(x);
@@ -166,18 +174,6 @@ function ListSideBar() {
         });
       }
       if (cookies.currentUser?.roleName == "admin") {
-        listSide.push({
-          title: "Dashboard",
-          icon: Monitor,
-          key: "bsi",
-          href: "admin/monitoring",
-        });
-        // listSide.push({
-        //   title: "Monitoring",
-        //   icon: Monitor,
-        //   key: "bsi",
-        //   href: "monitoring",
-        // });
         listSide.push({
           title: "Daftar Jenis Sampah",
           icon: Trash,
