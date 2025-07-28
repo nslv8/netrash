@@ -2,7 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["31.97.110.160", "res.cloudinary.com"],
+    domains: ["localhost", "res.cloudinary.com"],
+  },
+  env: {
+    NEXT_PUBLIC_BASE_URL: "http://31.97.110.160:3000", 
   },
 };
 
