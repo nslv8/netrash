@@ -221,7 +221,7 @@ export function Layout({ children, navbarContent = null, pageTitle = null }) {
   const pathname = usePathname();
   const router = useRouter();
   const [cookies, setCookie, removeCookie] = useCookies(["currentUser"]);
-  let baseUrl = "http://localhost:3000/";
+  let baseUrl = "http://31.97.110.160:3000/";
 
   const logOut = () => {
     removeCookie("currentUser");
