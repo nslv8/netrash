@@ -172,12 +172,6 @@ function ListSideBar() {
           href: "admin/monitoring",
         });
         listSide.push({
-          title: "Verifikasi Pendaftaran",
-          icon: BadgeCheck,
-          key: "bsi",
-          href: "approver",
-        });
-        listSide.push({
           title: "Daftar Nasabah",
           icon: Users,
           key: "bsi",
