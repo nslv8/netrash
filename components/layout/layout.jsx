@@ -173,15 +173,33 @@ function ListSideBar() {
           href: "admin/monitoring",
         });
         listSide.push({
+          title: "Verifikasi Pendaftaran",
+          icon: BadgeCheck,
+          key: "bsi",
+          href: "approver",
+        });
+        listSide.push({
+          title: "Daftar Nasabah",
+          icon: Users,
+          key: "bsi",
+          href: "nasabah",
+        });
+        listSide.push({
+          title: "Daftar Pengurus",
+          icon: Users2,
+          key: "bsi",
+          href: "pengurus",
+        });
+        listSide.push({
           title: "Daftar Jenis Sampah",
           icon: Trash,
-          key: "bsu",
+          key: "bsi",
           href: "admin/jenis-sampah",
         });
         listSide.push({
           title: "Daftar Bank Sampah Unit",
           icon: UserCircle,
-          key: "bsu",
+          key: "bsi",
           href: "admin/bsu",
         });
       }
