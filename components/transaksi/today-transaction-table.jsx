@@ -8,7 +8,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { formatCurrency, getTokenUserCookies, getIdUserCookies } from "@/lib/utils";
+import {
+  formatCurrency,
+  getTokenUserCookies,
+  getIdUserCookies,
+} from "@/lib/utils";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
 import TodayTransactionActions from "./today-transaction-actions";
@@ -32,11 +36,7 @@ export default function TodayTransactionTable() {
   const router = useRouter();
   const { toast } = useToast();
 
-  useEffect(() => {
-    fetchTodayTransactions();
-  }, [cookies, removeCookie, router, fetchTodayTransactions]);
-
- const fetchTodayTransactions = useCallback(async () => {
+  const fetchTodayTransactions = useCallback(async () => {
     try {
       const token = getTokenUserCookies(cookies);
       const userId = getIdUserCookies(cookies);
@@ -66,29 +66,35 @@ export default function TodayTransactionTable() {
     } catch (error) {
       console.error("Error fetching today transactions:", error);
     }
-  }, [cookies, removeCookie, router])
+  }, [cookies, removeCookie, router]);
+
+  useEffect(() => {
+    fetchTodayTransactions();
+  }, [fetchTodayTransactions]);
 
   const handleDelete = async (idTransaksi) => {
     try {
       const token = getTokenUserCookies(cookies);
       const response = await fetch(`/api/transaksi/${idTransaksi}`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      
+
       if (response.ok) {
         // Update transactions state
-        setTransactions(prev => prev.filter(t => t.idTransaksi !== idTransaksi));
+        setTransactions((prev) =>
+          prev.filter((t) => t.idTransaksi !== idTransaksi)
+        );
       } else if (response.status === 401) {
         removeCookie(["currentUser"]);
         router.replace("/login");
       } else {
-        console.error('Error deleting transaction');
+        console.error("Error deleting transaction");
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
 
@@ -105,35 +111,44 @@ export default function TodayTransactionTable() {
   const handleDetailDelete = async (detail) => {
     try {
       const token = getTokenUserCookies(cookies);
-      const response = await fetch(`/api/transaksi/detail/${detail.transaksiId}/${detail.jenisSampahId}`, {
-        method: 'DELETE',
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `/api/transaksi/detail/${detail.transaksiId}/${detail.jenisSampahId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       const result = await response.json();
-      
+
       if (result.status === 200) {
         // Update transactions state
-        setTransactions(prev => {
-          return prev.map(transaction => {
+        setTransactions((prev) => {
+          return prev.map((transaction) => {
             if (transaction.idTransaksi === detail.transaksiId) {
               // Hapus detail yang dihapus
               const updatedDetails = transaction.transaksidetail.filter(
-                d => d.jenisSampahId !== detail.jenisSampahId
+                (d) => d.jenisSampahId !== detail.jenisSampahId
               );
-              
+
               // Recalculate totals
-              const totalBerat = updatedDetails.reduce((sum, d) => sum + (parseFloat(d.berat) || 0), 0);
-              const totalHarga = updatedDetails.reduce((sum, d) => sum + (parseFloat(d.hargaTotal) || 0), 0);
-              
+              const totalBerat = updatedDetails.reduce(
+                (sum, d) => sum + (parseFloat(d.berat) || 0),
+                0
+              );
+              const totalHarga = updatedDetails.reduce(
+                (sum, d) => sum + (parseFloat(d.hargaTotal) || 0),
+                0
+              );
+
               return {
                 ...transaction,
                 transaksidetail: updatedDetails,
                 berat: Number(totalBerat).toFixed(2),
-                totalHarga: Number(totalHarga).toFixed(2)
+                totalHarga: Number(totalHarga).toFixed(2),
               };
             }
             return transaction;
@@ -141,23 +156,29 @@ export default function TodayTransactionTable() {
         });
 
         // Update selected transaction
-        setSelectedTransaction(prev => {
+        setSelectedTransaction((prev) => {
           if (!prev) return null;
-          
+
           // Hapus detail yang dihapus
           const updatedDetails = prev.transaksidetail.filter(
-            d => d.jenisSampahId !== detail.jenisSampahId
+            (d) => d.jenisSampahId !== detail.jenisSampahId
           );
-          
+
           // Recalculate totals
-          const totalBerat = updatedDetails.reduce((sum, d) => sum + (parseFloat(d.berat) || 0), 0);
-          const totalHarga = updatedDetails.reduce((sum, d) => sum + (parseFloat(d.hargaTotal) || 0), 0);
-          
+          const totalBerat = updatedDetails.reduce(
+            (sum, d) => sum + (parseFloat(d.berat) || 0),
+            0
+          );
+          const totalHarga = updatedDetails.reduce(
+            (sum, d) => sum + (parseFloat(d.hargaTotal) || 0),
+            0
+          );
+
           return {
             ...prev,
             transaksidetail: updatedDetails,
             berat: Number(totalBerat).toFixed(2),
-            totalHarga: Number(totalHarga).toFixed(2)
+            totalHarga: Number(totalHarga).toFixed(2),
           };
         });
 
@@ -170,7 +191,7 @@ export default function TodayTransactionTable() {
         removeCookie(["currentUser"]);
         router.replace("/login");
       } else {
-        console.error('Error:', result.message);
+        console.error("Error:", result.message);
         toast({
           variant: "destructive",
           title: "Gagal",
@@ -178,7 +199,7 @@ export default function TodayTransactionTable() {
         });
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
       toast({
         variant: "destructive",
         title: "Error",
@@ -192,58 +213,72 @@ export default function TodayTransactionTable() {
       const token = getTokenUserCookies(cookies);
       // Gunakan jenis sampah lama untuk URL
       const oldDetail = selectedTransaction.transaksidetail.find(
-        d => d.transaksiId === updatedDetail.transaksiId
+        (d) => d.transaksiId === updatedDetail.transaksiId
       );
       const oldJenisSampahId = oldDetail?.jenisSampahId;
 
-      const response = await fetch(`/api/transaksi/detail/${updatedDetail.transaksiId}/${oldJenisSampahId}`, {
-        method: 'PUT',
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(updatedDetail),
-      });
-      
+      const response = await fetch(
+        `/api/transaksi/detail/${updatedDetail.transaksiId}/${oldJenisSampahId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(updatedDetail),
+        }
+      );
+
       const result = await response.json();
-      
+
       if (result.status === 200) {
         // Update transactions state
-        setTransactions(prev => {
-          return prev.map(transaction => {
+        setTransactions((prev) => {
+          return prev.map((transaction) => {
             if (transaction.idTransaksi === updatedDetail.transaksiId) {
               // Jika jenis sampah berubah, hapus yang lama dan tambahkan yang baru
               let updatedDetails;
               if (oldJenisSampahId !== updatedDetail.jenisSampahId) {
                 updatedDetails = transaction.transaksidetail
-                  .filter(d => d.jenisSampahId !== oldJenisSampahId) // Hapus yang lama
-                  .concat([{ // Tambah yang baru
-                    ...oldDetail,
-                    jenisSampahId: updatedDetail.jenisSampahId,
-                    jenissampah: updatedDetail.jenissampah,
-                    berat: updatedDetail.berat,
-                    hargaTotal: updatedDetail.hargaTotal
-                  }]);
+                  .filter((d) => d.jenisSampahId !== oldJenisSampahId) // Hapus yang lama
+                  .concat([
+                    {
+                      // Tambah yang baru
+                      ...oldDetail,
+                      jenisSampahId: updatedDetail.jenisSampahId,
+                      jenissampah: updatedDetail.jenissampah,
+                      berat: updatedDetail.berat,
+                      hargaTotal: updatedDetail.hargaTotal,
+                    },
+                  ]);
               } else {
                 // Jika hanya update berat/harga
-                updatedDetails = transaction.transaksidetail.map(d => 
-                  d.jenisSampahId === oldJenisSampahId ? {
-                    ...d,
-                    berat: updatedDetail.berat,
-                    hargaTotal: updatedDetail.hargaTotal
-                  } : d
+                updatedDetails = transaction.transaksidetail.map((d) =>
+                  d.jenisSampahId === oldJenisSampahId
+                    ? {
+                        ...d,
+                        berat: updatedDetail.berat,
+                        hargaTotal: updatedDetail.hargaTotal,
+                      }
+                    : d
                 );
               }
-              
+
               // Recalculate totals
-              const totalBerat = updatedDetails.reduce((sum, d) => sum + (parseFloat(d.berat) || 0), 0);
-              const totalHarga = updatedDetails.reduce((sum, d) => sum + (parseFloat(d.hargaTotal) || 0), 0);
-              
+              const totalBerat = updatedDetails.reduce(
+                (sum, d) => sum + (parseFloat(d.berat) || 0),
+                0
+              );
+              const totalHarga = updatedDetails.reduce(
+                (sum, d) => sum + (parseFloat(d.hargaTotal) || 0),
+                0
+              );
+
               return {
                 ...transaction,
                 transaksidetail: updatedDetails,
                 berat: Number(totalBerat).toFixed(2),
-                totalHarga: Number(totalHarga).toFixed(2)
+                totalHarga: Number(totalHarga).toFixed(2),
               };
             }
             return transaction;
@@ -251,47 +286,58 @@ export default function TodayTransactionTable() {
         });
 
         // Update selected transaction
-        setSelectedTransaction(prev => {
+        setSelectedTransaction((prev) => {
           if (!prev) return null;
-          
+
           // Jika jenis sampah berubah, hapus yang lama dan tambahkan yang baru
           let updatedDetails;
           if (oldJenisSampahId !== updatedDetail.jenisSampahId) {
             updatedDetails = prev.transaksidetail
-              .filter(d => d.jenisSampahId !== oldJenisSampahId) // Hapus yang lama
-              .concat([{ // Tambah yang baru
-                ...oldDetail,
-                jenisSampahId: updatedDetail.jenisSampahId,
-                jenissampah: updatedDetail.jenissampah,
-                berat: updatedDetail.berat,
-                hargaTotal: updatedDetail.hargaTotal
-              }]);
+              .filter((d) => d.jenisSampahId !== oldJenisSampahId) // Hapus yang lama
+              .concat([
+                {
+                  // Tambah yang baru
+                  ...oldDetail,
+                  jenisSampahId: updatedDetail.jenisSampahId,
+                  jenissampah: updatedDetail.jenissampah,
+                  berat: updatedDetail.berat,
+                  hargaTotal: updatedDetail.hargaTotal,
+                },
+              ]);
           } else {
             // Jika hanya update berat/harga
-            updatedDetails = prev.transaksidetail.map(d => 
-              d.jenisSampahId === oldJenisSampahId ? {
-                ...d,
-                berat: updatedDetail.berat,
-                hargaTotal: updatedDetail.hargaTotal
-              } : d
+            updatedDetails = prev.transaksidetail.map((d) =>
+              d.jenisSampahId === oldJenisSampahId
+                ? {
+                    ...d,
+                    berat: updatedDetail.berat,
+                    hargaTotal: updatedDetail.hargaTotal,
+                  }
+                : d
             );
           }
-          
+
           // Recalculate totals
-          const totalBerat = updatedDetails.reduce((sum, d) => sum + (parseFloat(d.berat) || 0), 0);
-          const totalHarga = updatedDetails.reduce((sum, d) => sum + (parseFloat(d.hargaTotal) || 0), 0);
-          
+          const totalBerat = updatedDetails.reduce(
+            (sum, d) => sum + (parseFloat(d.berat) || 0),
+            0
+          );
+          const totalHarga = updatedDetails.reduce(
+            (sum, d) => sum + (parseFloat(d.hargaTotal) || 0),
+            0
+          );
+
           return {
             ...prev,
             transaksidetail: updatedDetails,
             berat: Number(totalBerat).toFixed(2),
-            totalHarga: Number(totalHarga).toFixed(2)
+            totalHarga: Number(totalHarga).toFixed(2),
           };
         });
 
         // Close dialog
         setShowEditDialog(false);
-        
+
         // Show success message
         toast({
           title: "Berhasil",
@@ -301,7 +347,7 @@ export default function TodayTransactionTable() {
         removeCookie(["currentUser"]);
         router.replace("/login");
       } else {
-        console.error('Error response:', result);
+        console.error("Error response:", result);
         toast({
           variant: "destructive",
           title: "Gagal",
@@ -309,7 +355,7 @@ export default function TodayTransactionTable() {
         });
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
       toast({
         variant: "destructive",
         title: "Error",
@@ -339,9 +385,13 @@ export default function TodayTransactionTable() {
               {transactions.map((transaction, index) => (
                 <TableRow key={transaction.idTransaksi}>
                   <TableCell>{index + 1}</TableCell>
-                  <TableCell>{transaction.nama || '-'}</TableCell>
-                  <TableCell>{Number(transaction.beratsampah || 0).toFixed(2)}</TableCell>
-                  <TableCell>{formatCurrency(transaction.totalhargasampah || 0)}</TableCell>
+                  <TableCell>{transaction.nama || "-"}</TableCell>
+                  <TableCell>
+                    {Number(transaction.beratsampah || 0).toFixed(2)}
+                  </TableCell>
+                  <TableCell>
+                    {formatCurrency(transaction.totalhargasampah || 0)}
+                  </TableCell>
                   <TableCell className="flex justify-center">
                     <TodayTransactionActions
                       transaction={transaction}
@@ -366,7 +416,9 @@ export default function TodayTransactionTable() {
       <Dialog open={showDetailDialog} onOpenChange={setShowDetailDialog}>
         <DialogContent className="max-w-4xl">
           <DialogHeader>
-            <DialogTitle>Detail Transaksi - {selectedTransaction?.nasabah?.nama}</DialogTitle>
+            <DialogTitle>
+              Detail Transaksi - {selectedTransaction?.nasabah?.nama}
+            </DialogTitle>
           </DialogHeader>
           {selectedTransaction && (
             <div className="grid gap-4">
@@ -383,12 +435,20 @@ export default function TodayTransactionTable() {
                 </TableHeader>
                 <TableBody>
                   {selectedTransaction.transaksidetail?.map((detail, index) => (
-                    <TableRow key={`${detail.transaksiId}-${detail.jenisSampahId}`}>
+                    <TableRow
+                      key={`${detail.transaksiId}-${detail.jenisSampahId}`}
+                    >
                       <TableCell>{index + 1}</TableCell>
                       <TableCell>{detail.jenissampah?.nama}</TableCell>
                       <TableCell>{Number(detail.berat).toFixed(2)}</TableCell>
-                      <TableCell>{formatCurrency(detail.jenissampah?.hargasampahbsi?.harga || 0)}</TableCell>
-                      <TableCell>{formatCurrency(detail.hargaTotal || 0)}</TableCell>
+                      <TableCell>
+                        {formatCurrency(
+                          detail.jenissampah?.hargasampahbsi?.harga || 0
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {formatCurrency(detail.hargaTotal || 0)}
+                      </TableCell>
                       <TableCell className="flex justify-center">
                         <TransactionDetailActions
                           detail={detail}
