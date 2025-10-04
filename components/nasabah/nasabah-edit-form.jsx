@@ -284,38 +284,19 @@ function EditNasabahForm({
               />
               <FormField
                 control={form.control}
-                name="email"
+                name="Nik"
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex items-baseline space-x-2 space-y-3">
-                      <FormLabel className="w-1/3">Email</FormLabel>
-                      <div className="w-full">
-                        <FormControl>
-                          <Input
-                            disabled={disabled}
-                            placeholder="Masukkan Email"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage className="mt-1 text-xs" />
-                      </div>
-                    </div>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="noTelp"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="flex items-baseline space-x-2 space-y-3">
-                      <FormLabel className="w-1/3">Nomor Telepon</FormLabel>
+                      <FormLabel className="w-1/3">
+                        Nomor Induk Kependudukan (NIK)
+                      </FormLabel>
                       <div className="w-full">
                         <FormControl>
                           <Input
                             type="number"
                             disabled={disabled}
-                            placeholder="Masukkan Nomor Telepon"
+                            placeholder="Masukkan Nomor Induk Kependudukan (NIK)"
                             {...field}
                           />
                         </FormControl>
@@ -353,51 +334,6 @@ function EditNasabahForm({
                               <FormLabel>Perempuan</FormLabel>
                             </FormItem>
                           </RadioGroup>
-                        </FormControl>
-                        <FormMessage className="mt-1 text-xs" />
-                      </div>
-                    </div>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="Nik"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="flex items-baseline space-x-2 space-y-3">
-                      <FormLabel className="w-1/3">
-                        Nomor Induk Kependudukan (NIK)
-                      </FormLabel>
-                      <div className="w-full">
-                        <FormControl>
-                          <Input
-                            type="number"
-                            disabled={disabled}
-                            placeholder="Masukkan Nomor Induk Kependudukan (NIK)"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage className="mt-1 text-xs" />
-                      </div>
-                    </div>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="alamat"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="flex items-baseline space-x-2 space-y-3">
-                      <FormLabel className="w-1/3">Alamat</FormLabel>
-                      <div className="w-full">
-                        <FormControl>
-                          <Input
-                            disabled={disabled}
-                            placeholder="Masukkan Alamat"
-                            {...field}
-                          />
                         </FormControl>
                         <FormMessage className="mt-1 text-xs" />
                       </div>
@@ -477,6 +413,71 @@ function EditNasabahForm({
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="flex items-baseline space-x-2 space-y-3">
+                      <FormLabel className="w-1/3">Email</FormLabel>
+                      <div className="w-full">
+                        <FormControl>
+                          <Input
+                            disabled={disabled}
+                            placeholder="Masukkan Email"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="mt-1 text-xs" />
+                      </div>
+                    </div>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="noTelp"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="flex items-baseline space-x-2 space-y-3">
+                      <FormLabel className="w-1/3">Nomor Telepon</FormLabel>
+                      <div className="w-full">
+                        <FormControl>
+                          <Input
+                            type="number"
+                            disabled={disabled}
+                            placeholder="Masukkan Nomor Telepon"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="mt-1 text-xs" />
+                      </div>
+                    </div>
+                  </FormItem>
+                )}
+              />           
+              <FormField
+                control={form.control}
+                name="alamat"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="flex items-baseline space-x-2 space-y-3">
+                      <FormLabel className="w-1/3">Alamat</FormLabel>
+                      <div className="w-full">
+                        <FormControl>
+                          <Input
+                            disabled={disabled}
+                            placeholder="Masukkan Alamat"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="mt-1 text-xs" />
+                      </div>
+                    </div>
+                  </FormItem>
+                )}
+              />
+              
               <FormField
                 control={form.control}
                 name="kelurahan"
