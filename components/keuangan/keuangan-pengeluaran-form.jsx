@@ -284,12 +284,12 @@ function KeuanganPengeluaranForm({
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex items-baseline space-x-2 space-y-3">
-                      <FormLabel className="w-1/3">Saldo</FormLabel>
+                      <FormLabel className="w-1/3">Nominal Pengeluaran</FormLabel>
                       <div className="w-full">
                         <FormControl>
                           <Input
                             disabled={disabled}
-                            placeholder="Masukkan Saldo"
+                            placeholder="Masukkan Nominal Pengeluaran"
                             {...field}
                           />
                         </FormControl>

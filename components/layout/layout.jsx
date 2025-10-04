@@ -115,7 +115,7 @@ function ListSideBar() {
 
       if (cookies.currentUser?.roleName == "bsu") {
         listSide.push({
-          title: "Monitoring",
+          title: "Dashboard",
           icon: Monitor,
           key: "bsu",
           href: "monitoring/bsu",
@@ -166,7 +166,7 @@ function ListSideBar() {
 
       if (cookies.currentUser?.roleName == "admin") {
         listSide.push({
-          title: "Monitoring",
+          title: "Dashboard",
           icon: Monitor,
           key: "bsi",
           href: "admin/monitoring",
