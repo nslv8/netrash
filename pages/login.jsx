@@ -89,7 +89,7 @@ export default function Login() {
           <Image src={"/netrash.png"} alt="simbaci" width={150} height={150} />
           <Image src={"/uplogo.png"} alt="eswka" width={150} height={150} />
         </div>
-        {/* <div className="mt-10">
+        <div className="mt-10">
           <h2 className="pb-2 text-3xl font-semibold tracking-tight scroll-m-20 first:mt-0">
             Mari Bergabung Bersama
           </h2>
@@ -102,7 +102,7 @@ export default function Login() {
             adalah langkah besar untuk bumi. Yuk, jadikan perubahan dimulai dari
             kita!
           </p>
-        </div> */}
+        </div>
       </div>
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[400px] gap-6 p-6 border border-white-100 shadow-lg rounded-lg">
